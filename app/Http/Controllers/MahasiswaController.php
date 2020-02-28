@@ -54,7 +54,7 @@ class MahasiswaController extends Controller
         $mhs->nim = $request->nim;
         $mhs->id_dosen = $request->id_dosen;
         $mhs->save();
-        return redirect()->route('mahasiswa.index')->with(['massage'=>'Data Berhasil Dibuat']);
+        return redirect()->route('mahasiswa.index')->with(['massage'=>'Data Berhasil Diubah']);
     }
 
     public function destroy($id)

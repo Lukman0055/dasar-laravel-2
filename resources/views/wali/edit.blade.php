@@ -8,24 +8,19 @@
                     Edit Data
                 </div>
                 <div class="card-body">
-                    <form action="{{route('mahasiswa.update',$mhs->id)}}" method="POST">
+                    <form action="{{route('wali.update',$wali->id)}}" method="POST">
                         <input type="hidden" name="_method" value="PUT">
                         @csrf
                         <div class="form-group">
-                            <label for="">Nama</label>
-                            <input type="text" name="nama" class="form-control" value="{{$mhs->nama}}" required>
+                            <label for="">Nama Wali</label>
+                            <input type="text" name="nama" class="form-control" value="{{$wali->nama}}" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="">Nomor Induk</label>
-                            <input type="text" name="nim" class="form-control" value="{{$mhs->nim}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">Nama Dosen</label>
-                            <select name="id_dosen" class="form-control">
-                                @foreach ($dosen as $data)
-                                    <option value="{{$data->id}}" {{$data->nama == $mhs->id_dosen ? "selected": ""}}
+                            <label for="">Nama Siswa</label>
+                            <select name="id_mahasiswa" class="form-control">
+                                @foreach ($mhs as $data)
+                                    <option value="{{$data->id}}" {{$data->nama == $wali->id_mahasiswa ? "selected": ""}}
                                     >{{$data->nama}}</option>
                                 @endforeach
                             </select>
