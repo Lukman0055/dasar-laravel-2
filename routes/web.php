@@ -97,3 +97,6 @@ Route::get('kontak', function(){
 
 // crud
 Route::resource('dosen','DosenController');
+Route::resource('hobbi','HobbiController');
+Route::resource('mahasiswa','MahasiswaController');
+

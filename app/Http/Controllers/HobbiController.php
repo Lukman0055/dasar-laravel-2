@@ -7,79 +7,56 @@ use Illuminate\Http\Request;
 
 class HobbiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $hobbi = hobbi::all();
+        return view('hobbi.index',compact('hobbi'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('hobbi.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $hobbi = new hobbi();
+        $hobbi->hobbi = $request->hobbi;
+        $hobbi->save();
+        return redirect()->route('hobbi.index')
+        ->with(['massage'=>'Hobbi Berhasil Dibuat']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\hobbi  $hobbi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(hobbi $hobbi)
+    public function show($id)
     {
-        //
+        $hobbi = hobbi::findOrFail($id);
+        return view('hobbi.show',compact('hobbi'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\hobbi  $hobbi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(hobbi $hobbi)
+    public function edit($id)
     {
-        //
+        $hobbi = hobbi::findOrFail($id);
+        return view('hobbi.edit',compact('hobbi'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\hobbi  $hobbi
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, hobbi $hobbi)
+    public function update(Request $request, $id)
     {
-        //
+        $hobbi = hobbi::findOrFail($id);
+        $hobbi->hobbi = $request->hobbi;
+        $hobbi->save();
+        return redirect()->route('hobbi.index')
+        ->with(['massage'=>'Hobbi Berhasil Di Edit']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\hobbi  $hobbi
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(hobbi $hobbi)
+    public function destroy($id)
     {
-        //
+        $hobbi = hobbi::findOrFail($id)->delete();
+        return redirect()->route('hobbi.index')
+        ->with(['massage'=>'Hobbi Berhasil Di Hapus']);
     }
 }

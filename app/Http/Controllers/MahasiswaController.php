@@ -4,82 +4,63 @@ namespace App\Http\Controllers;
 
 use App\mahasiswa;
 use Illuminate\Http\Request;
-
+use App\dosen;
 class MahasiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $mhs = mahasiswa::with('dosen')->get();
+        return view('mahasiswa.index',compact('mhs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $dosen = dosen::all();
+        return view('mahasiswa.create', compact('dosen'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $mhs = new mahasiswa();
+        $mhs->nama = $request->nama;
+        $mhs->nim = $request->nim;
+        $mhs->id_dosen = $request->id_dosen;
+        $mhs->save();
+        return redirect()->route('mahasiswa.index')->with(['massage'=>'Data Berhasil Dibuat']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(mahasiswa $mahasiswa)
+    public function show($id)
     {
-        //
+        $mhs = mahasiswa::findOrFail($id);
+        return view('mahasiswa.show',compact('mhs'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(mahasiswa $mahasiswa)
+    public function edit($id)
     {
-        //
+        $dosen = dosen::all();
+        $mhs = mahasiswa::findOrFail($id);
+        return view('mahasiswa.edit',compact('mhs','dosen'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, mahasiswa $mahasiswa)
+    public function update(Request $request, $id)
     {
-        //
+        $mhs = mahasiswa::findOrFail($id);
+        $mhs->nama = $request->nama;
+        $mhs->nim = $request->nim;
+        $mhs->id_dosen = $request->id_dosen;
+        $mhs->save();
+        return redirect()->route('mahasiswa.index')->with(['massage'=>'Data Berhasil Dibuat']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(mahasiswa $mahasiswa)
+    public function destroy($id)
     {
-        //
+        $mhs = mahasiswa::findOrFail($id)->delete();
+        return redirect()->route('mahasiswa.index')
+        ->with(['massage'=>'Data Berhasil Di Hapus']);
     }
 }

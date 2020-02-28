@@ -41,6 +41,14 @@
                                 </a>
                             </li>
                         @endguest
+                        @guest
+                        @else
+                            <li class="nav-item">
+                                <a href="{{route('hobbi.index')}}" class="nav-link">
+                                Hobbi
+                                </a>
+                            </li>
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
